@@ -5,12 +5,18 @@
 
 (defun trim (text) (remove #\, (remove #\space text)))
 
+(defun ssearch (needle haystack)
+  (when (integerp (search needle haystack))
+    (return-from ssearch (search needle haystack)))
+    (return-from ssearch 1))
+
 (defun parse (text)
-  (let ((len (+ 1 (min (search "R" (subseq text 1)) (search "L" (subseq text 1))))))
-    (format t "about to move with ~a~%" len)
+(when (= (length text) 0) (return-from parse ""))
+  (let ((len (+ 1 (min (ssearch "R" (subseq text 1)) (ssearch "L" (subseq text 1))))))
     (move (subseq text 0 len))
-    (when (> len 0)
-      (parse (subseq text len)))))
+      (parse (subseq text len))))
 
 
-(defun move (text) (format t "~a~%" text))
+(defun move (text) (format t "~a~%" text)
+
+)

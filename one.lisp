@@ -1,3 +1,4 @@
+(defvar *log* ())
 (defvar *x* 0)
 (defvar *y* 0)
 (defvar *z* 0);0 is north, 1 is east
@@ -20,17 +21,18 @@
   (setf *z* (mod (- *z* 1) 4)))
 
 (defun xy (z n)
-(format t "dir:~a for:~a~%" z n)
-(format t "x:~a y~a total~a~%" *x* *y* (+ *x* *y*))
-  (when (= z 0) (setf *y* (+ n *y*)))
-  (when (= z 1) (setf *x* (+ n *x*)))
-  (when (= z 2) (setf *y* (- *y* n)))
-  (when (= z 3) (setf *x* (- *x* n)))
-(format t "x:~a y~a total~a~%" *x* *y* (+ *x* *y*)))
+  (dotimes (p n)
+  (when (= z 0) (setf *y* (+ 1 *y*)))
+  (when (= z 1) (setf *x* (+ 1 *x*)))
+  (when (= z 2) (setf *y* (- *y* 1)))
+  (when (= z 3) (setf *x* (- *x* 1)))
+  (let ((l (list *x* *y*)))
+    (dolist (q *log*) (when (equalp q l) (format t "the answer is:~a" (+ (abs *x*) (abs *y*)))))
+(pushnew l *log*))))
+
 
 (defun move (text) (format t "~a~%" text)
   (xy (direction (subseq text 0 1)) (parse-integer (subseq text 1))))
 
 (defun answer () (+ (abs *x*) (abs *y*)))
 (defun run () (parse (trim *input*)))
-(defun reset () (setf *x* 0) (setf *y* 0) (setf *z* 0))

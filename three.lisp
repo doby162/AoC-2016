@@ -1909,24 +1909,29 @@
 
 ")
 (defvar *short* "  161  728  778
+  162  728  778
+  163  728  778
   161  728  778
   161  728  778
   161  728  778")
 (defvar *correct* 0)
 
-
 (defun parse (text)
-  (let ((a (subseq text 0 15)) (b (subseq text 16)))
-    (when (check a) (setf *correct* (+ *correct* 1)))
-    (when (> (length b) 15) (parse b))
+  (let* ((a (subseq text 0 47)) (b (subseq text 48)) (ls (sub-parse a)))
+    (when (check (nth 0 ls) (nth 1 ls) (nth 2 ls)) (setf *correct* (+ *correct* 1)))
+    (when (check (nth 3 ls) (nth 4 ls) (nth 5 ls)) (setf *correct* (+ *correct* 1)))
+    (when (check (nth 6 ls) (nth 7 ls) (nth 8 ls)) (setf *correct* (+ *correct* 1)))
+    (when (> (length b) 47) (parse b))
     (return-from parse *correct*)))
 
-(defun check (tx)
-  (let ((a (parse-integer (subseq tx 0 5))) (b (parse-integer (subseq tx 5 10))) (c (parse-integer(subseq tx 10))))
+(defun sub-parse (tx)
+  (let ((a (parse-integer (subseq tx 0 5))) (b (parse-integer (subseq tx 16 21))) (c (parse-integer (subseq tx 32 37))))
+    (let ((d (parse-integer (subseq tx 5 10))) (e (parse-integer (subseq tx 21 26))) (f (parse-integer (subseq tx 37 42))))
+      (let ((g (parse-integer (subseq tx 10 15))) (h (parse-integer (subseq tx 26 31))) (i (parse-integer (subseq tx 42 47))))
+	(return-from sub-parse (list a b c d e f g h i))))))
+
+(defun check (a b c)
     (when (>= a (+ b c)) (return-from check nil))
     (when (>= b (+ a c)) (return-from check nil))
     (when (>= c (+ b a)) (return-from check nil))
-    (return-from check t)))
-
-
-
+    (return-from check t))

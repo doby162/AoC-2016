@@ -5,17 +5,31 @@ DDUURRLULDLULULLDUDDRURDDRLRDULUURURRLURDLRRDUUDLULDRDLDLRLULLRULLDRLDRRULUDRLDU
 URDLUDUDLULURUDRLUDLUDLRLRLLDDDDDLURURUURLRDUDLRRUUDUURDURUULDRRRDDDLDUURRRDLRULRRDLRUDUDLDDDLLLRLRLRUUUUUULURRRLRLUDULURLDLLDUUDDRUDLDUDRRLULLULLDURDDRRLLRLDLLLLRLULLDDDDLDULLRDUURDUDURRUULLDRULUDLUULUUDDLDDRDLULLULDLDRLDLRULLRLURDURUDRLDURDRULRLLLLURRURLRURUDUDRRUDUUDURDDRRDRLURLURRLDRRLLRLRUDLRLLRLDLDDRDLURLLDURUDDUUDRRLRUDLUDULDRUDDRDRDRURDLRLLRULDDURLUUUUDLUDRRURDDUUURRLRRDDLULLLDLRULRRRLDRRURRURRUUDDDLDRRURLRRRRDLDLDUDURRDDLLLUULDDLRLURLRRURDRUULDDDUDRDRUDRRLRLLLLLURDULDUDRLULDRLUULUDDDDUDDRDDLDDRLLRULRRURDDDRDDLDLULRDDRRURRUDRDDDDRURDRRURUUDUDDUURULLDRDULURUDUD
 ")
 
+(defvar *spare* "ULL
+RRDDD
+LURDL
+UUUUD
+")
+
 (defvar newline "
 ")
-(defvar *x* 1)
-(defvar *y* 1)
+(defvar *x* 0)
+(defvar *y* 2)
 (defvar *code* ())
-(defvar *ls* (list (list 7 8 9) (list 4 5 6) (list 1 2 3) ))
+;(defvar *ls* (list (list 7 8 9) (list 4 5 6) (list 1 2 3) ))
 
-(defun x+ () (when (< *x* 2) (setf *x* (+ *x* 1))))
-(defun x- () (when (> *x* 0) (setf *x* (- *x* 1))))
-(defun y+ () (when (< *y* 2) (setf *y* (+ *y* 1))))
-(defun y- () (when (> *y* 0) (setf *y* (- *y* 1))))
+(defvar *ls* (list
+		(list 0  0   1   0  0)
+		(list 0  2   3   4  0)
+		(list 5  6   7   8  9)
+		(list 0 "A" "B" "C" 0)
+		(list 0  0  "D"  0  0)))
+
+(defun x+ () (when (and (not (eq 0 (nth (+ *x* 1) (nth *y* *ls*)))) (< *x* 4)) (setf *x* (+ *x* 1))))
+(defun x- () (when (and (not (eq 0 (nth (- *x* 1) (nth *y* *ls*)))) (> *x* 0)) (setf *x* (- *x* 1))))
+(defun y+ () (when (and (not (eq 0 (nth *x* (nth (- *y* 1) *ls*)))) (> *y* 0)) (setf *y* (- *y* 1))))
+(defun y- () (when (and (not (eq 0 (nth *x* (nth (+ *y* 1) *ls*)))) (< *y* 4)) (setf *y* (+ *y* 1))))
+
 
 ;(defun ssearch (needle haystack)
 ;  (when (integerp (search needle haystack))
@@ -30,7 +44,7 @@ URDLUDUDLULURUDRLUDLUDLRLRLLDDDDDLURURUURLRDUDLRRUUDUURDURUULDRRRDDDLDUURRRDLRUL
 ;(format t "~a" len)
 ;    (move (subseq text 0 len))
 ;      (parse (subseq text len))))
-;
+
 
 (defun add-to-code ()
   (push (nth *x* (nth *y* *ls*)) *code*))

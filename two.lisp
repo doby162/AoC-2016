@@ -25,10 +25,10 @@ UUUUD
 		(list 0 "A" "B" "C" 0)
 		(list 0  0  "D"  0  0)))
 
-(defun x+ () (when (and (not (eq 0 (nth (+ *x* 1) (nth *y* *ls*)))) (< *x* 4)) (setf *x* (+ *x* 1))))
-(defun x- () (when (and (not (eq 0 (nth (- *x* 1) (nth *y* *ls*)))) (> *x* 0)) (setf *x* (- *x* 1))))
-(defun y+ () (when (and (not (eq 0 (nth *x* (nth (- *y* 1) *ls*)))) (> *y* 0)) (setf *y* (- *y* 1))))
-(defun y- () (when (and (not (eq 0 (nth *x* (nth (+ *y* 1) *ls*)))) (< *y* 4)) (setf *y* (+ *y* 1))))
+(defun x+ () (when (and (< *x* 4) (not (eq 0 (nth (+ *x* 1) (nth *y* *ls*))))) (setf *x* (+ *x* 1))))
+(defun x- () (when (and (> *x* 0) (not (eq 0 (nth (- *x* 1) (nth *y* *ls*))))) (setf *x* (- *x* 1))))
+(defun y+ () (when (and (> *y* 0) (not (eq 0 (nth *x* (nth (- *y* 1) *ls*))))) (setf *y* (- *y* 1))))
+(defun y- () (when (and (< *y* 4) (not (eq 0 (nth *x* (nth (+ *y* 1) *ls*))))) (setf *y* (+ *y* 1))))
 
 
 ;(defun ssearch (needle haystack)
